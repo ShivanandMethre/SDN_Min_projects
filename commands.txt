@@ -1,0 +1,91 @@
+# SDN Port Monitoring Project
+
+# Simple Commands with Comments
+
+# STEP 1: Start POX Controller
+
+# This controls the network and applies rules
+
+cd pox
+./pox.py log.level --DEBUG port_monitor
+
+# STEP 2: Open a NEW terminal
+
+# Do NOT close the controller terminal
+
+# Start Mininet with 1 switch and 2 hosts
+
+sudo mn -c
+sudo mn --topo single,2 --controller remote
+
+# STEP 3: Test basic connectivity
+
+# Check if h1 can reach h2
+
+mininet>
+
+then type this
+
+ 
+
+h1 ping h2
+
+# Expected Output:
+
+# Ping should SUCCESS
+
+# STEP 4: Test HTTP (Allowed Traffic)
+
+# Start web server on h2
+
+mininet>
+
+then type this
+
+ h2 python3 -m http.server 80 &
+
+or
+
+ h2 python3 -m http.server 80   
+
+// server run in background 
+
+# Access from h1
+
+mininet>
+
+ 
+
+h1 curl http://10.0.0.2
+
+# Expected Output:
+
+# HTML page displayed → HTTP ALLOWED
+
+# STEP 5: Test Telnet (Blocked Traffic)
+
+mininet>h1 telnet 10.0.0.2 23
+
+# Expected Output:
+
+# Connection FAIL → Telnet BLOCKED
+
+# STEP 6: Check Flow Table (Optional)
+
+sudo ovs-ofctl dump-flows s1
+
+# Expected Output:
+
+# Shows flow entries
+
+# STEP 7: Test Network Speed (Optional)
+
+mininet> iperf h1 h2
+
+# Expected Output:
+
+# Shows bandwidth
+
+# STEP 8: Exit Mininet
+
+mininet> exit
